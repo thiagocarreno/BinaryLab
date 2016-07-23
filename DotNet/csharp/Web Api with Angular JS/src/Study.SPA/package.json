@@ -1,9 +1,0 @@
-{
-  "version": "1.0.0",
-  "name": "StudySPAApplication",
-  "devDependencies": {
-    "grunt": "0.4.5",
-    "grunt-contrib-uglify": "0.11.1",
-    "grunt-contrib-watch": "0.6.1"
-  }
-}
