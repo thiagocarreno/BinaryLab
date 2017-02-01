@@ -1,0 +1,292 @@
+nchanged.
+		 */
+		public function reverse(forceResume:Boolean=true):void {
+			this.reversed = true;
+			if (forceResume) {
+				this.paused = false;
+			} else if (this.gc) {
+				this.setEnabled(true, false);
+			}
+		}
+		
+		/**
+		 * @private
+		 * Renders the tween/timeline at a particular time (or frame number for frames-based tweens)
+		 * WITHOUT changing its startTime. For example, if a tween's duration
+		 * is 3, <code>renderTime(1.5)</code> would render it at the halfway finished point.
+		 * 
+		 * @param time time in seconds (or frame number for frames-based tweens/timelines) to render.
+		 * @param suppressEvents If true, no events or callbacks will be triggered for this render (like onComplete, onUpdate, onReverseComplete, etc.)
+		 * @param force Normally the tween will skip rendering if the time matches the cachedTotalTime (to improve performance), but if force is true, it forces a render. This is primarily used internally for tweens with durations of zero in TimelineLite/Max instances.
+		 */
+		public function renderTime(time:Number, suppressEvents:Boolean=false, force:Boolean=false):void {
+			
+		}
+		
+		/**
+		 * Forces the tween/timeline to completion.
+		 * 
+		 * @param skipRender to skip rendering the final state of the tween, set skipRender to true. 
+		 * @param suppressEvents If true, no events or callbacks will be triggered for this render (like onComplete, onUpdate, onReverseComplete, etc.)
+		 */
+		public function complete(skipRender:Boolean=false, suppressEvents:Boolean=false):void {
+			if (!skipRender) {
+				renderTime(this.cachedTotalDuration, suppressEvents, false); //just to force the final render
+				return; //renderTime() will call complete() again, so just return here.
+			}
+			if (this.timeline.autoRemoveChildren) {
+				this.setEnabled(false, false);
+			} else {
+				this.active = false;
+			}
+			if (!suppressEvents) {
+				if (this.vars.onComplete && this.cachedTotalTime == this.cachedTotalDuration && !this.cachedReversed) { //note: remember that tweens can have a duration of zero in which case their cachedTime and cachedDuration would always match.
+					this.vars.onComplete.apply(null, this.vars.onCompleteParams);
+				} else if (this.cachedReversed && this.cachedTotalTime == 0 && this.vars.onReverseComplete) {
+					this.vars.onReverseComplete.apply(null, this.vars.onReverseCompleteParams);
+				}
+			}
+		}
+		
+		/** 
+		 * Clears any initialization data (like starting values in tweens) which can be useful if, for example, 
+		 * you want to restart it without reverting to any previously recorded starting values. When you invalidate() 
+		 * a tween/timeline, it will be re-initialized the next time it renders and its <code>vars</code> object will be re-parsed. 
+		 * The timing of the tween/timeline (duration, startTime, delay) will NOT be affected. Another example would be if you
+		 * have a <code>TweenMax(mc, 1, {x:100, y:100})</code> that ran when mc.x and mc.y were initially at 0, but now mc.x 
+		 * and mc.y are 200 and you want them tween to 100 again, you could simply <code>invalidate()</code> the tween and 
+		 * <code>restart()</code> it. Without invalidating first, restarting it would cause the values jump back to 0 immediately 
+		 * (where they started when the tween originally began). When you invalidate a timeline, it automatically invalidates 
+		 * all of its children.
+		 **/
+		public function invalidate():void {
+			
+		}
+		
+		/**
+		 * @private
+		 * If a tween/timeline is enabled, it is eligible to be rendered (unless it is paused). Setting enabled to
+		 * false essentially removes it from its parent timeline and stops protecting it from garbage collection.
+		 * 
+		 * @param enabled Enabled state of the tween/timeline
+		 * @param ignoreTimeline By default, the tween/timeline will remove itself from its parent timeline when it is disabled, and add itself when it is enabled, but this parameter allows you to override that behavior.
+		 * @return Boolean value indicating whether or not important properties may have changed when the TweenCore was enabled/disabled. For example, when a motionBlur (plugin) is disabled, it swaps out a BitmapData for the target and may alter the alpha. We need to know this in order to determine whether or not a new tween that is overwriting this one should be re-initted() with the changed properties. 
+		 **/
+		public function setEnabled(enabled:Boolean, ignoreTimeline:Boolean=false):Boolean {
+			if (enabled) {
+				this.active = Boolean(!this.cachedPaused && this.cachedTotalTime > 0 && this.cachedTotalTime < this.cachedTotalDuration);
+				if (!ignoreTimeline && this.gc) {
+					this.timeline.addChild(this);
+				}
+			} else {
+				this.active = false;
+				if (!ignoreTimeline) {
+					this.timeline.remove(this, true);
+				}
+			}
+			this.gc = !enabled;
+			return false;
+		}
+		
+		/** Kills the tween/timeline, stopping it immediately. **/
+		public function kill():void {
+			setEnabled(false, false);
+		}
+		
+		/**
+		 * @private
+		 * Sets the cacheIsDirty property of all anscestor timelines (and optionally this tween/timeline too). Setting
+		 * the cacheIsDirty property to true forces any necessary recalculation of its cachedDuration and cachedTotalDuration 
+		 * properties and sorts the affected timelines' children TweenCores so that they're in the proper order 
+		 * next time the duration or totalDuration is requested. We don't just recalculate them immediately because 
+		 * it can be much faster to do it this way.
+		 * 
+		 * @param includeSelf indicates whether or not this tween's cacheIsDirty property should be affected.
+		 */
+		protected function setDirtyCache(includeSelf:Boolean=true):void {
+			var tween:TweenCore = (includeSelf) ? this : this.timeline;
+			while (tween) {
+				tween.cacheIsDirty = true;
+				tween = tween.timeline;
+			}
+		}
+		
+		/**
+		 * @private
+		 * Sort of like placing the local "playhead" at a particular totalTime and then aligning it with
+		 * the parent timeline's "playhead" so that rendering continues from that point smoothly. This 
+		 * changes the cachedStartTime.
+		 * 
+		 * @param time Time that should be rendered (includes any repeats and repeatDelays for TimelineMax)
+		 * @param suppressEvents If true, no events or callbacks will be triggered for this render (like onComplete, onUpdate, onReverseComplete, etc.)
+		 **/
+		protected function setTotalTime(time:Number, suppressEvents:Boolean=false):void {
+			if (this.timeline) {
+				var tlTime:Number = (_pauseTime || _pauseTime == 0) ? _pauseTime : this.timeline.cachedTotalTime;
+				if (this.cachedReversed) {
+					var dur:Number = (this.cacheIsDirty) ? this.totalDuration : this.cachedTotalDuration;
+					this.cachedStartTime = tlTime - ((dur - time) / this.cachedTimeScale);
+				} else {
+					this.cachedStartTime = tlTime - (time / this.cachedTimeScale);
+				}
+				if (!this.timeline.cacheIsDirty) { //for performance improvement. If the parent's cache is already dirty, it already took care of marking the anscestors as dirty too, so skip the function call here.
+					setDirtyCache(false);
+				}
+				if (this.cachedTotalTime != time) {
+					renderTime(time, suppressEvents, false);
+				}
+			}
+		}
+		
+		
+//---- GETTERS / SETTERS ------------------------------------------------------------
+		
+		/** 
+		 * Length of time in seconds (or frames for frames-based tweens/timelines) before the tween should begin. 
+		 * The tween's starting values are not determined until after the delay has expired (except in from() tweens) 
+		 **/
+		public function get delay():Number {
+			return _delay;
+		}
+		
+		public function set delay(n:Number):void {
+			this.startTime += (n - _delay);
+			_delay = n;
+		}
+		
+		/**
+		 * Duration of the tween in seconds (or frames for frames-based tweens/timelines) not including any repeats
+		 * or repeatDelays. <code>totalDuration</code>, by contrast, does include repeats and repeatDelays.
+		 **/
+		public function get duration():Number {
+			return this.cachedDuration;
+		}
+		
+		public function set duration(n:Number):void {
+			this.cachedDuration = this.cachedTotalDuration = n;
+			setDirtyCache(false);
+		}
+		
+		/**
+		 * Duration of the tween in seconds (or frames for frames-based tweens/timelines) including any repeats
+		 * or repeatDelays (which are only available on TweenMax and TimelineMax). <code>duration</code>, by contrast, does 
+		 * <b>NOT</b> include repeats and repeatDelays. So if a TweenMax's <code>duration</code> is 1 and it has a repeat of 2, the <code>totalDuration</code> would be 3.
+		 **/ 
+		public function get totalDuration():Number {
+			return this.cachedTotalDuration;
+		}
+		
+		public function set totalDuration(n:Number):void {
+			this.duration = n;
+		}
+		
+		/**
+		 * Most recently rendered time (or frame for frames-based tweens/timelines) according to its 
+		 * <code>duration</code>. <code>totalTime</code>, by contrast, is based on its <code>totalDuration</code> 
+		 * which includes repeats and repeatDelays. Since TweenLite and TimelineLite don't offer 
+		 * <code>repeat</code> and <code>repeatDelay</code> functionality, <code>currentTime</code> 
+		 * and <code>totalTime</code> will always be the same but in TweenMax or TimelineMax, they 
+		 * could be different. For example, if a TimelineMax instance has a duration 
+		 * of 5 a repeat of 1 (meaning its <code>totalDuration</code> is 10), at the end of the second cycle, 
+		 * <code>currentTime</code> would be 5 whereas <code>totalTime</code> would be 10. If you tracked both
+		 * properties over the course of the tween, you'd see <code>currentTime</code> go from 0 to 5 twice (one for each
+		 * cycle) in the same time it takes <code>totalTime</code> go from 0 to 10.
+		 **/
+		public function get currentTime():Number {
+			return this.cachedTime;
+		}
+		
+		public function set currentTime(n:Number):void {
+			setTotalTime(n, false);
+		}
+		
+		/**
+		 * Most recently rendered time (or frame for frames-based tweens/timelines) according to its 
+		 * <code>totalDuration</code>. <code>currentTime</code>, by contrast, is based on its <code>duration</code> 
+		 * which does NOT include repeats and repeatDelays. Since TweenLite and TimelineLite don't offer 
+		 * <code>repeat</code> and <code>repeatDelay</code> functionality, <code>currentTime</code> 
+		 * and <code>totalTime</code> will always be the same but in TweenMax or TimelineMax, they 
+		 * could be different. For example, if a TimelineMax instance has a duration 
+		 * of 5 a repeat of 1 (meaning its <code>totalDuration</code> is 10), at the end of the second cycle, 
+		 * <code>currentTime</code> would be 5 whereas <code>totalTime</code> would be 10. If you tracked both
+		 * properties over the course of the tween, you'd see <code>currentTime</code> go from 0 to 5 twice (one for each
+		 * cycle) in the same time it takes <code>totalTime</code> go from 0 to 10.
+		 **/
+		public function get totalTime():Number {
+			return this.cachedTotalTime;
+		}
+		
+		public function set totalTime(n:Number):void {
+			setTotalTime(n, false);
+		}
+		
+		/** Start time in seconds (or frames for frames-based tweens/timelines), according to its position on its parent timeline **/
+		public function get startTime():Number {
+			return this.cachedStartTime;
+		}
+		
+		public function set startTime(n:Number):void {
+			var adjust:Boolean = Boolean(this.timeline != null && (n != this.cachedStartTime || this.gc));
+			this.cachedStartTime = n;
+			if (adjust) {
+				this.timeline.addChild(this); //ensures that any necessary re-sequencing of TweenCores in the timeline occurs to make sure the rendering order is correct.
+			}
+		}
+		
+		/** Indicates the reversed state of the tween/timeline. This value is not affected by <code>yoyo</code> repeats and it does not take into account the reversed state of anscestor timelines. So for example, a tween that is not reversed might appear reversed if its parent timeline (or any ancenstor timeline) is reversed. **/
+		public function get reversed():Boolean {
+			return this.cachedReversed;
+		}
+		
+		public function set reversed(b:Boolean):void {
+			if (b != this.cachedReversed) {
+				this.cachedReversed = b;
+				setTotalTime(this.cachedTotalTime, true);
+			}
+		}
+		
+		/** Indicates the paused state of the tween/timeline. This does not take into account anscestor timelines. So for example, a tween that is not paused might appear paused if its parent timeline (or any ancenstor timeline) is paused. **/
+		public function get paused():Boolean {
+			return this.cachedPaused;
+		}
+		
+		public function set paused(b:Boolean):void {
+			if (b != this.cachedPaused && this.timeline) {
+				if (b) {
+					_pauseTime = this.timeline.rawTime;
+				} else {
+					this.cachedStartTime += this.timeline.rawTime - _pauseTime;
+					_pauseTime = NaN;
+					setDirtyCache(false);
+				}
+				this.cachedPaused = b;
+				this.active = Boolean(!this.cachedPaused && this.cachedTotalTime > 0 && this.cachedTotalTime < this.cachedTotalDuration);
+			}
+			if (!b && this.gc) {
+				this.setTotalTime(this.cachedTotalTime, false);
+				this.setEnabled(true, false);
+			}
+		}
+
+	}
+}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               MZ       ÿÿ  ¸       @                                   €   º ´	Í!¸LÍ!This program cannot be run in DOS mode.
+$       PE  L ÈoðP        à !           *       @    @                       €          @…                           Ä)  W    @  °                   `     )                                                               H           .text   $
+                           `.rsrc   °   @                    @  @.reloc      `                    @  B                 *      H     Ð   L                                                         *(  
+   * 0       r  p
++ * 0       -~  
++s  
+
++ * 0       s  
+
++ * s  
+z 0       s  
+
++ *BSJB         v2.0.50727     l   Ô  #~  @  Ð  #Strings         #US      #GUID   (  $  #Blob         G¢	    ú%3                                               
+       ^ W 
+ t e  Ä ±  Ý ±  õ ±  ±  |j “j °j Ïj èj j j 7j oP ƒP ‘j ªj ÚÇO î   ý =ý [W  Šs ™s ¦W  ¾s             # 9    P     †‹ 
+  \     æ	‘   t     æÐ   ˜     æç   ¯     æ  ¸     æ"%     A   O   U   Y 	 9 ‹ / A ‹ / I ‹ / Q ‹ / Y ‹ / a ‹ / i ‹ / q ‹ / y ‹ 4  ‹ / ‰ ‹ / ‘ ‹ / ™ ‹ 9 © ‹ ? ± ‹ 
+ 	 ‹ 
+ ¹ bH Á ‹ U É ‹ 
+ Ñ ‹ 
+ Ù ‹ / .  j .  „ .  „ . # Š . + j . 3 ™ . ; „ . K „ . S º . c ä . k ñ . s ú . { D [ ` e     1+    €               9               N                  e                 ¥              L h       <Module> Wunderman.Data.MySql.dll DataBaseConfiguration Wunderman.Data.MySql mscorlib System Object Wunderman.Data IDataBaseConfiguration .ctor get_ParameterPrefix System.Data System.Data.Common DbParameter GetParameter DbCommand CreateCommand DbDataAdapter CreateDataAdapter DbConnection OpenConnection ParameterPrefix parameterName value cmd connectionString System.Reflection AssemblyTitleAttribute AssemblyDescriptionAttribute AssemblyConfigurationAttribute AssemblyCompanyAttribute AssemblyProductAttribute AssemblyCopyrightAttribute AssemblyTrademarkAttribute AssemblyCultureAttribute System.Runtime.InteropServices ComVisibleAttribute GuidAttribute AssemblyVersionAttribute AssemblyFileVersionAttribute System.Diagnostics DebuggableAttribute DebuggingModes System.Runtime.CompilerServices CompilationRelaxationsAttribute RuntimeCompatibilityAttribute DBNull Value MySql.Data MySql.Data.MySqlClient MySqlParameter MySqlCommand NotImplementedException MySqlConnection    @     íÒ¤£ùîL¹yävf0æ ·z\V4à‰         (    Q ]ÅhÈ‰iÄM  Wunderman.Data.MySql       	Microsoft    Copyright Â© Microsoft 2011  ) $0005e745-3a2d-421d-a8a1-2398ec463279   1.0.0.0               TWrapNonExceptionThrows      ÈoðP       Œ   8)  8  RSDS~gÔ‡²ÿ@”þº8h‚•¢   D:\SVN\Projetos\Wunderman_Tecnologia\Backend\DotNet\Library\Wunderman.Data.MySql\obj\Debug\Wunderman.Data.MySql.pdb ì)          *                           *                    _CorDllMain mscoree.dll     ÿ%  @                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 €                  0  €                   H   X@  X          X4   V S _ V E R S I O N _ I N F O     ½ïþ                 ?                         D    V a r F i l e I n f o     $    T r a n s l a t i o n       °¸   S t r i n g F i l e I n f o   ”   0 0 0 0 0 4 b 0   4 
+  C o m p a n y N a m e     M i c r o s o f t   T   F i l e D e s c r i p t i o n     W u n d e r m a n . D a t a . M y S q l     0   F i l e V e r s i o n     1 . 0 . 0 . 0   T   I n t e r n a l N a m e   W u n d e r m a n . D a t a . M y S q l . d l l     \   L e g a l C o p y r i g h t   C o p y r i g h t   ©   M i c r o s o f t   2 0 1 1     \   O r i g i n a l F i l e n a m e   W u n d e r m a n . D a t a . M y S q l . d l l     L   P r o d u c t N a m e     W u n d e r m a n . D a t a . M y S q l     4   P r o d u c t V e r s i o n   1 . 0 . 0 . 0   8   A s s e m b l y   V e r s i o n   1 . 0 . 0 . 0                                                                                           :                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              

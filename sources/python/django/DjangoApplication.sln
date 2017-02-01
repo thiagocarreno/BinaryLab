@@ -1,0 +1,30 @@
+var wpAjax = jQuery.extend( {
+	unserialize: function( s ) {
+		var r = {}, q, pp, i, p;
+		if ( !s ) { return r; }
+		q = s.split('?'); if ( q[1] ) { s = q[1]; }
+		pp = s.split('&');
+		for ( i in pp ) {
+			if ( jQuery.isFunction(pp.hasOwnProperty) && !pp.hasOwnProperty(i) ) { continue; }
+			p = pp[i].split('=');
+			r[p[0]] = p[1];
+		}
+		return r;
+	},
+	parseAjaxResponse: function( x, r, e ) { // 1 = good, 0 = strange (bad data?), -1 = you lack permission
+		var parsed = {}, re = jQuery('#' + r).html(''), err = '';
+
+		if ( x && typeof x == 'object' && x.getElementsByTagName('wp_ajax') ) {
+			parsed.responses = [];
+			parsed.errors = false;
+			jQuery('response', x).each( function() {
+				var th = jQuery(this), child = jQuery(this.firstChild), response;
+				response = { action: th.attr('action'), what: child.get(0).nodeName, id: child.attr('id'), oldId: child.attr('old_id'), position: child.attr('position') };
+				response.data = jQuery( 'response_data', child ).text();
+				response.supplemental = {};
+				if ( !jQuery( 'supplemental', child ).children().each( function() {
+					response.supplemental[this.nodeName] = jQuery(this).text();
+				} ).size() ) { response.supplemental = false }
+				response.errors = [];
+				if ( !jQuery('wp_error', child).each( function() {
+					var code = jQuery
