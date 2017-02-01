@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package >
+	<metadata>
+		<id>IOC.FW.Authentication</id>
+		<version>3.0.0</version>
+		<title>Codvanced IoC Framework Authentication</title>
+		<authors>Thiago Roberto Carreño (thiagocarreno), Lucas Cé Bertin (lcssk8board)</authors>
+		<owners>Thiago Roberto Carreño (thiagocarreno), Lucas Cé Bertin</owners>
+		<licenseUrl>https://github.com/Codvanced/framework/blob/v2.0.0/LICENSE</licenseUrl>
+		<projectUrl>https://github.com/Codvanced/framework</projectUrl>
+		<iconUrl>https://avatars0.githubusercontent.com/u/9950488?v=3&s=200</iconUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description></description>
+		<summary></summary>
+		<releaseNotes>First Release</releaseNotes>
+		<copyright>Copyright © 2016</copyright>
+		<tags>ioc di cantainer injection dependency authentication basic authentication</tags>
+		<dependencies>
+			<group>
+				<dependency id="DryIoc.dll" version="(1.5,3.0.0)" />
+				<dependency id="CommonServiceLocator" version="[1.3,2.0.0)" />
+			</group>
+		</dependencies>
+		<frameworkAssemblies>
+			<frameworkAssembly assemblyName="System" targetFramework="4.0" />
+		</frameworkAssemblies>
+	</metadata>
+	<files>
+        <file src="..\artifacts\build\IOC.FW.Authentication.dll" target="lib\net40" />
+        <file src="..\artifacts\build\IOC.FW.Authentication.xml" target="lib\net40" />
+    </files>
+</package>

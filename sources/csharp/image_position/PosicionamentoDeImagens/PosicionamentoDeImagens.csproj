@@ -1,0 +1,124 @@
+package net.andremattos.controls 
+{
+	import flash.display.Sprite;
+	import flash.display.MovieClip;
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
+	import flash.events.IEventDispatcher;
+	import flash.events.MouseEvent;
+	import flash.utils.Dictionary;
+	import net.andremattos.controls.sliders.ArrowsBarSlider;
+	import net.andremattos.controls.sliders.ASlider;
+	import net.andremattos.controls.sliders.SimpleSlider;
+	import net.andremattos.display.Aligner;
+	
+	/**
+	 * ...
+	 * @author André Mattos - www.ma77os.com
+	 * TODO: se não tiver mascara, desenha
+	 * TODO: se aparecer scroll, o conteúdo tem que descontar o tamanho dele tb
+	 * TODO: abstrair mais essa classe para não tratar de elementos especificos como bgFooter e como adiciona Botoes. Depois essa classe herda
+	 */
+	public class Window extends EventDispatcher 
+	{
+		public var view:MovieClip;
+		public var buttonsPadding:Number = 10;
+		private var _title:MovieClip;
+		private var _butClose:MovieClip;
+		private var _vScroll:MovieClip;
+		private var _hScroll:MovieClip;
+		private var _bgContent:MovieClip;
+		private var _targetContent:MovieClip;
+		private var _maskContent:MovieClip;
+		private var _bgFooter:MovieClip;
+		private var _buttonsContainer:Sprite;
+		private var _bg:MovieClip;
+		
+		private var _content:Sprite;
+		private var _strTitle:String;
+		
+		private var _vScrollController:ASlider;
+		private var _hScrollController:ASlider;
+		
+		private var _w:Number = 0;
+		private var _h:Number = 0;
+		private var _align:Boolean;
+		private var _alignAnchor:String;
+		private var _alignOptions:Object;
+		private var _buttons:Dictionary;
+		
+		public function Window(pView:MovieClip, content:Sprite, title:String, w:Number = 0, h:Number = 0, align:Boolean =true, alignAnchor:String = Aligner.CENTER, alignOptions:Object = null ) 
+		{
+			super();
+			
+			view = pView;
+			_content = content;
+			_strTitle = title;
+			_align = align;
+			_alignAnchor = alignAnchor;
+			_alignOptions = alignOptions || {};
+			_w = w > 0 ? w : view.width;
+			_h = h > 0 ? h : view.height;
+			_init();
+		}
+		
+		public function setSize (w:Number = 0, h:Number = 0):void
+		{
+			_w = w > 0?w:_w;
+			_h = h > 0?h:_h;
+			
+			// bg
+			_bg.width = _w;
+			_bg.height = _h;
+			
+			var contentW:Number = _w - _bgContent.x * 2;
+			var contentH:Number = _h - _bgContent.y - _bgFooter.height - _title.y;
+			
+			// scrolls positions
+			_hScroll.visible = _content.width > contentW;
+			_vScroll.visible = _content.height > contentH;
+			_vScroll.x = _bgContent.x + contentW - _vScroll.width - 5;
+			_hScroll.y = _bgContent.y + contentH - _hScroll.height;
+			
+			// bg and mask content 
+			_title.bg.width = _title.txt.width = _w - _title.x * 2;
+			_bgContent.width = contentW;
+			_bgContent.height = contentH;
+			_maskContent.width = contentW - (_vScroll.visible ? _vScroll.width + 10 : 0);
+			_maskContent.height = contentH - (_hScroll.visible ? _hScroll.height + 10 : 0);
+			
+			// scrolls controller
+			_vScrollController.trackLenght = contentH - 20;
+			_hScrollController.trackLenght = contentW - 20;
+			_vScrollController.maxValue = _maskContent.y + _maskContent.height - _content.height;
+			_hScrollController.maxValue = _maskContent.x + _maskContent.width - _content.width;
+			
+			// bg footer
+			_bgFooter.y = _bgContent.y + contentH;
+			_bgFooter.width = _w - _bgFooter.x * 2;
+			
+			// buttons
+			_buttonsContainer.x = _bgFooter.x + _bgFooter.width - _buttonsContainer.width - 5;
+			_buttonsContainer.y = _bgFooter.y + (_bgFooter.height - _buttonsContainer.height) / 2
+			
+			// content
+			_content.x = _bgContent.x + (!_hScroll.visible?(_maskContent.width - _content.width) / 2 : 0);
+			_content.y = _bgContent.y + (!_vScroll.visible?(_maskContent.height - _content.height) / 2 : 0);
+			
+			Aligner.remove (view);
+			if (_align)
+			{
+				_alignOptions.width = _w;
+				_alignOptions.height = _h;
+				Aligner.add (view, _alignAnchor, _alignOptions);
+			}
+		}
+		
+		public function addButton (button:Sprite, callBack:Function, ...callBackParams):void
+		{
+			//trace ("addButton: " + button);
+			if (!_buttons) _buttons = new Dictionary (true);
+			_buttons[button] = new ButtonProp (button, callBack, callBackParams);
+			
+			button.addEventListener (MouseEvent.CLICK, _onClickButton);
+			if (_buttonsContainer.width > 0) button.x = _buttonsCo

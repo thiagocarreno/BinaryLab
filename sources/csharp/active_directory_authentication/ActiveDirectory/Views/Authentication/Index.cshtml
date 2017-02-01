@@ -1,0 +1,31 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+
+    @using (Html.BeginForm("Index", "Authentication", FormMethod.Post))
+    {
+        <div>
+            @Html.Label("user", "Usuário: ")
+            @Html.TextBox("user")
+        </div>
+        <div>
+            @Html.Label("password", "Senha: ")
+            @Html.Password("password")
+        </div>
+        <input type="submit" name="Authenticate" value="Autenticar" />
+        if (ViewData["Message"] != null)
+        {
+            @ViewData["Message"]
+        }
+    }
+
+</html>
