@@ -1,0 +1,40 @@
+<html>
+<head>
+	<title>TestePostTag Facebook</title>
+	<script type="text/javascript">
+	//Faz um post na pr�pria time line e tagueia os amigos especifícados, porém, tem que passar um place para a api, esse place é uma página.
+		function Tag1(){
+		
+			data = { 
+				name: 'Some name',
+				picture: document.location.href + '/Assets/img/teste.jpg',
+				link: document.location.href,
+				message: 'some message',
+				tags: '100002155765148',
+				place: '110506962309835'
+			};
+
+			FB.api('/me/feed', 'post', data, function(response){
+				console.info(response);
+			});		
+		}
+		
+        function login() {
+            FB.login(function (response) {
+                if (response.authResponse) {
+                    testAPI();
+                }
+            }, { scope: 'publish_stream, user_likes, email, publish_checkins, read_stream' });
+        }
+
+        function logout() {
+            FB.logout(function (response) {
+                document.getElementById("msg").innerHTML = "<a href='#' onclick='login();'>logar</a>";
+            });
+        }
+    </script>
+</head>
+<body>
+    <div id="msg"></div>
+</body>
+</html>

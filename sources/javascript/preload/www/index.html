@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Preload video via AJAX</title>
+		<script type="text/javascript" src="js/Preload.js"></script>
+		<script>
+
+			function Load(uri) {
+				var loader = new Preload();
+				
+				loader.onload = function (event) {
+					if (this.readyState === 4) {
+						var obj = document.querySelector("video");
+						if (obj !== null) {
+							obj.src = event.target;
+						};
+					};
+				}
+
+				loader.onprogress = function(event) {
+					var percent = (event.loaded / event.size) * 100;
+					console.info(Math.round(percent));
+				}
+
+				loader.onabort = function(event) {
+					console.info("Abort:" + event);
+				}
+
+				loader.onerror = function(event) {
+					console.info("Error:" + event);
+				}
+
+				loader.open(uri);
+				loader.read();
+			}
+
+			window.onload = Load("assets/video/exagerado_p1.mp4");
+		</script>
+	</head>
+<body>
+	<video id="video" controls autoplay></video>
+</body>
+</html>
