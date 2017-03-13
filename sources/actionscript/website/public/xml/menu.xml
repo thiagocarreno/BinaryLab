@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root>
+	
+	<item label="Home" data="home"/>
+	
+	<item label="Galeria" data="galeria"/>
+	
+	<item label="Sobre" data="sobre"/>
+	
+	<item label="Contato" data="contato"/>
+	
+</root>

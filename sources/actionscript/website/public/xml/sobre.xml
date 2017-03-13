@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root>
+	
+	<img source="images/sobre.jpg"/>
+	
+	<texto><![CDATA[Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam hendrerit tincidunt arcu eu sagittis. Donec fringilla congue elementum. Aliquam eget est metus. Nullam massa leo, commodo in lobortis ac, mollis at dui. Etiam massa quam, eleifend sed tincidunt in, scelerisque sit amet purus.
+
+Praesent quis tortor sit amet odio aliquam bibendum. Aenean odio nunc, ornare vel commodo at, volutpat non elit. Ut et metus eros, id semper erat. Aliquam interdum elit id ipsum aliquet nec luctus nisi malesuada. Nunc auctor lacus at turpis tincidunt fringilla.
+
+Aliquam interdum elit id ipsum aliquet nec luctus nisi malesuada. Nunc auctor lacus at turpis tincidunt fringilla.]]></texto>
+	
+</root>
