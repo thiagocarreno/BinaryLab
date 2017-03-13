@@ -1,203 +1,81 @@
-﻿package net.andremattos.media
-{
-	import flash.display.Sprite;
-	import flash.events.Event;
-	import flash.events.IOErrorEvent;
-	import flash.events.NetStatusEvent;
-	import flash.events.TimerEvent;
-	import flash.media.SoundTransform;
-	import flash.media.Video;
-	import flash.net.NetConnection;
-	import flash.net.NetStream;
-	import flash.utils.setTimeout;
-	import flash.utils.Timer;
-	import net.andremattos.events.VideoEvent;
-	
-	/**
-	 * ...
-	 * @author André Mattos - www.ma77os.com
-	 * TODO: implementar play de um NetStream direto
-	 */
-	public class FLVPlayer extends APlayer
-	{
-		private var _video:Video;
-		private var _nc:NetConnection;
-		private var _ns:NetStream;
-		private var _startTime:Number;
-		private var _timerUpdatePlayer:Timer;
-		//private var _autoRewind:Boolean = false;
-		private var _playbackStarted:Boolean = false;
-		private var _playbackEnded:Boolean = false;
-		private var _loop:Boolean = false;
-		
-		public function FLVPlayer() 
-		{
-			super();
-			
-			_nc = new NetConnection ()
-			_nc.addEventListener (NetStatusEvent.NET_STATUS, _onNetStatus, false, 0, true)
-			_nc.addEventListener (IOErrorEvent.IO_ERROR, _onIOError, false, 0, true);
-			_nc.connect (null);
-			
-			_timerUpdatePlayer = new Timer(40); 
-			_timerUpdatePlayer.addEventListener (TimerEvent.TIMER, _updatePlayer, false, 0, true);
-			
-			video = new Video();
-			addChild (_video);
-		}
-		
-		
-		private function _initNS ():void
-		{
-			_nc.removeEventListener (NetStatusEvent.NET_STATUS, _onNetStatus)
-			_nc.removeEventListener (IOErrorEvent.IO_ERROR, _onIOError);
-			
-			_ns = new NetStream (_nc);
-			_ns.addEventListener (NetStatusEvent.NET_STATUS, _onNetStatus, false, 0, true)
-			_ns.client = this;
-		}
-		
-		public function play (strUrl:String, start:Number = 0):void
-		{
-			_ns.play (strUrl);
-			_startTime = start;
-			
-			_isPlaying = true;
-			_controls.playing = _isPlaying;
-			_controls._onClickPlay(null);
-			_playbackStarted = false;
-			
-			if (!_timerUpdatePlayer.running) _timerUpdatePlayer.start ();
-			// TODO: implementar evento buffer full
-			_updateBuffering ();
-			
-			if (_startTime > 0) pause ();
-		}
-		
-		override public function resume ():void
-		{
-			if (_playbackEnded) 
-			{
-				_ns.seek (0);
-				_controls.time = 0;
-				_playbackEnded = false;
-			}
-			_ns.resume ();
-			
-			if (!_timerUpdatePlayer.running) _timerUpdatePlayer.start ();
-			super.resume ();
-		}
-		
-		override public function pause ():void
-		{
-			if (_ns == null) return;
-			
-			_ns.pause ();
-			super.pause ();
-		}
-		
-		public function clearVideo ():void
-		{
-			if (_timerUpdatePlayer.running) _timerUpdatePlayer.stop ();
-			_ns.close ();
-		}
-		
-		override public function dispose ():void
-		{
-			clearVideo ();
-			_nc.close ();
-			super.dispose ();
-		}
-		
-		override protected function _onControlSeek(e:VideoEvent):void 
-		{
-			time = e.time;
-			super._onControlSeek (e);
-		}
-		
-		override protected function _onControlChangeVolume(e:VideoEvent):void 
-		{
-			volume = e.volume;
-			super._onControlChangeVolume (e);
-		}
-		
-		override protected function _updatePlayer(e:Event = null):void 
-		{
-			var loadingRatio:Number = _ns.bytesLoaded / _ns.bytesTotal;
-			var timeLoaded:Number = loadingRatio * _duration;
-			
-			if (_startTime > 0 && timeLoaded > _startTime + 1)
-			{
-				setTimeout (function(seekTime:Number):void{
-					_ns.seek (seekTime);
-					resume ();
-				},300, _startTime)
-				
-				_startTime = 0
-			}
-			
-			_controls.bufferRatio = loadingRatio;
-			
-			if (_isPlaying)
-			{
-				_controls.time = _ns.time;
-			}
-			
-			super._updatePlayer (e);
-		}
-		
-		private function _onPlaybackEnded ():void
-		{
-			_playbackEnded = true;
-			
-			//trace ("_onPlaybackEnded");
-			//trace ("_loop:" + _loop);
-			
-			if (_loop)
-			{
-				resume ();
-				pause ();
-			}
-			else
-			{
-				_timerUpdatePlayer.stop ();
-				if (_ns) _ns.pause();
-			}
-			/*if (_autoRewind) 
-			{
-				_ns.seek (0);
-				_controls.time = 0;
-			}*/
-			
-			
-			dispatchEvent (new VideoEvent(VideoEvent.COMPLETE));
-		}
-		
-		private function _onIOError(e:IOErrorEvent):void 
-		{
-			
-		}
-		
-		private function _onNetStatus(e:NetStatusEvent):void 
-		{
-			//trace ("e.info.code: " + e.info.code);
-			switch (e.info.code)
-			{
-				case "NetConnection.Connect.Success":
-					_initNS ();
-					_isBuffering = true;
-					break;
-				case "NetStream.Play.StreamNotFound":
-					break;
-				case "NetStream.Buffer.Empty":
-					if (_playbackEnded) return;
-					_isBuffering = true;
-					break;
-				case "NetStream.Buffer.Full":
-					_isBuffering = false;
-					if (!_playbackStarted)
-					{
-						_playbackStarted = true;
-						dispatchEvent (new VideoEvent (VideoEvent.STARTED));
-					}
-					//else dispatchEvent
+﻿<?xml version="1.0" encoding="utf-8"?>
+<serviceModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="DjangoApplication.Azure" generation="1" functional="0" release="0" Id="e2efa18d-d67c-4bbb-9620-d4a92760a950" dslVersion="1.2.0.0" xmlns="http://schemas.microsoft.com/dsltools/RDSM">
+  <groups>
+    <group name="DjangoApplication.AzureGroup" generation="1" functional="0" release="0">
+      <componentports>
+        <inPort name="DjangoApplication:Endpoint1" protocol="http">
+          <inToChannel>
+            <lBChannelMoniker name="/DjangoApplication.Azure/DjangoApplication.AzureGroup/LB:DjangoApplication:Endpoint1" />
+          </inToChannel>
+        </inPort>
+      </componentports>
+      <settings>
+        <aCS name="DjangoApplication:Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" defaultValue="">
+          <maps>
+            <mapMoniker name="/DjangoApplication.Azure/DjangoApplication.AzureGroup/MapDjangoApplication:Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
+          </maps>
+        </aCS>
+        <aCS name="DjangoApplicationInstances" defaultValue="[1,1,1]">
+          <maps>
+            <mapMoniker name="/DjangoApplication.Azure/DjangoApplication.AzureGroup/MapDjangoApplicationInstances" />
+          </maps>
+        </aCS>
+      </settings>
+      <channels>
+        <lBChannel name="LB:DjangoApplication:Endpoint1">
+          <toPorts>
+            <inPortMoniker name="/DjangoApplication.Azure/DjangoApplication.AzureGroup/DjangoApplication/Endpoint1" />
+          </toPorts>
+        </lBChannel>
+      </channels>
+      <maps>
+        <map name="MapDjangoApplication:Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" kind="Identity">
+          <setting>
+            <aCSMoniker name="/DjangoApplication.Azure/DjangoApplication.AzureGroup/DjangoApplication/Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
+          </setting>
+        </map>
+        <map name="MapDjangoApplicationInstances" kind="Identity">
+          <setting>
+            <sCSPolicyIDMoniker name="/DjangoApplication.Azure/DjangoApplication.AzureGroup/DjangoApplicationInstances" />
+          </setting>
+        </map>
+      </maps>
+      <components>
+        <groupHascomponents>
+          <role name="DjangoApplication" generation="1" functional="0" release="0" software="D:\Outros\Thiago\Testes\Python\DjangoApplication\DjangoApplication.Azure\csx\Release\roles\DjangoApplication" entryPoint="base\x64\WaHostBootstrapper.exe" parameters="base\x64\WaIISHost.exe " memIndex="1792" hostingEnvironment="frontendadmin" hostingEnvironmentVersion="2">
+            <componentports>
+              <inPort name="Endpoint1" protocol="http" portRanges="80" />
+            </componentports>
+            <settings>
+              <aCS name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" defaultValue="" />
+              <aCS name="__ModelData" defaultValue="&lt;m role=&quot;DjangoApplication&quot; xmlns=&quot;urn:azure:m:v1&quot;&gt;&lt;r name=&quot;DjangoApplication&quot;&gt;&lt;e name=&quot;Endpoint1&quot; /&gt;&lt;/r&gt;&lt;/m&gt;" />
+            </settings>
+            <resourcereferences>
+              <resourceReference name="DiagnosticStore" defaultAmount="[4096,4096,4096]" defaultSticky="true" kind="Directory" />
+              <resourceReference name="EventStore" defaultAmount="[1000,1000,1000]" defaultSticky="false" kind="LogStore" />
+            </resourcereferences>
+          </role>
+          <sCSPolicy>
+            <sCSPolicyIDMoniker name="/DjangoApplication.Azure/DjangoApplication.AzureGroup/DjangoApplicationInstances" />
+            <sCSPolicyFaultDomainMoniker name="/DjangoApplication.Azure/DjangoApplication.AzureGroup/DjangoApplicationFaultDomains" />
+          </sCSPolicy>
+        </groupHascomponents>
+      </components>
+      <sCSPolicy>
+        <sCSPolicyFaultDomain name="DjangoApplicationFaultDomains" defaultPolicy="[2,2,2]" />
+        <sCSPolicyID name="DjangoApplicationInstances" defaultPolicy="[1,1,1]" />
+      </sCSPolicy>
+    </group>
+  </groups>
+  <implements>
+    <implementation Id="765ae715-8d24-48aa-aaee-305524515422" ref="Microsoft.RedDog.Contract\ServiceContract\DjangoApplication.AzureContract@ServiceDefinition.build">
+      <interfacereferences>
+        <interfaceReference Id="fca9f1b2-deea-45eb-ac5d-f8be107d3ee0" ref="Microsoft.RedDog.Contract\Interface\DjangoApplication:Endpoint1@ServiceDefinition.build">
+          <inPort>
+            <inPortMoniker name="/DjangoApplication.Azure/DjangoApplication.AzureGroup/DjangoApplication:Endpoint1" />
+          </inPort>
+        </interfaceReference>
+      </interfacereferences>
+    </implementation>
+  </implements>
+</serviceModel>

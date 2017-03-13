@@ -1,24 +1,27 @@
-(function(w) {
-	var init = function() {
-		var pr = document.getElementById('post-revisions'),
-		inputs = pr ? pr.getElementsByTagName('input') : [];
-		pr.onclick = function() {
-			var i, checkCount = 0, side;
-			for ( i = 0; i < inputs.length; i++ ) {
-				checkCount += inputs[i].checked ? 1 : 0;
-				side = inputs[i].getAttribute('name');
-				if ( ! inputs[i].checked &&
-				( 'left' == side && 1 > checkCount || 'right' == side && 1 < checkCount && ( ! inputs[i-1] || ! inputs[i-1].checked ) ) &&
-				! ( inputs[i+1] && inputs[i+1].checked && 'right' == inputs[i+1].getAttribute('name') ) )
-					inputs[i].style.visibility = 'hidden';
-				else if ( 'left' == side || 'right' == side )
-					inputs[i].style.visibility = 'visible';
-			}
-		}
-		pr.onclick();
-	}
-	if ( w && w.addEventListener )
-		w.addEventListener('load', init, false);
-	else if ( w && w.attachEvent )
-		w.attachEvent('onload', init);
-})(window);
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceDefinition name="DjangoApplication.Azure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2012-05.1.7">
+ <WebRole name="DjangoApplication" vmsize="Small">
+  <Sites>
+   <Site name="Web">
+    <Bindings>
+     <Binding name="Endpoint1" endpointName="Endpoint1" />
+    </Bindings>
+   </Site>
+  </Sites>
+  <Endpoints>
+   <InputEndpoint name="Endpoint1" protocol="http" port="80" />
+  </Endpoints>
+  <Startup>
+   <Task commandLine="Microsoft.PythonTools.AzureSetup.exe" executionContext="elevated" taskType="simple">
+    <Environment>
+     <Variable name="EMULATED">
+      <RoleInstanceValue xpath="/RoleEnvironment/Deployment/@emulated" />
+     </Variable>
+    </Environment>
+   </Task>
+  </Startup>
+  <Imports>
+   <Import moduleName="Diagnostics" />
+  </Imports>
+ </WebRole>
+</ServiceDefinition>

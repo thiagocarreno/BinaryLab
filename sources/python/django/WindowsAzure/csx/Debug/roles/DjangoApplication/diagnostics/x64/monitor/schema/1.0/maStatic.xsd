@@ -1,70 +1,45 @@
-if ( typeof wp === 'undefined' )
-	var wp = {};
+<?xml version="1.0"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-(function( exports, $ ){
-	var api = wp.customize,
-		Loader;
+  <xs:include schemaLocation="shared.xsd"/>
 
-	$.extend( $.support, {
-		history: !! ( window.history && history.pushState ),
-		hashchange: ('onhashchange' in window) && (document.documentMode === undefined || document.documentMode > 7)
-	});
+  <xs:complexType name="WcfEndpointType">
+    <xs:attribute name="path" type="xs:string" use="required"/>
+    <xs:attribute name="port" type="xs:unsignedInt" use="required"/>
+  </xs:complexType>
 
-	Loader = $.extend( {}, api.Events, {
-		initialize: function() {
-			this.body = $( document.body );
+  <xs:complexType name="EndpointType">
+    <xs:choice>
+      <xs:element name="WcfEndpoint" type="WcfEndpointType"/>
+    </xs:choice>
+    <xs:attribute name="name" type="xs:ID" use="required"/>
+  </xs:complexType>
 
-			// Ensure the loader is supported.
-			// Check for settings, postMessage support, and whether we require CORS support.
-			if ( ! Loader.settings || ! $.support.postMessage || ( ! $.support.cors && Loader.settings.isCrossDomain ) ) {
-				return;
-			}
+  <xs:complexType name="EndpointsType">
+    <xs:sequence>
+      <xs:element name="Endpoint" type="EndpointType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
 
-			this.window  = $( window );
-			this.element = $( '<div id="customize-container" />' ).appendTo( this.body );
+<!-- The agent name must be unique for every MA instance running on a single system or VM.  If
+     it is not unique different MA instances will be running the same named ETW sessions.
 
-			this.bind( 'open', this.overlay.show );
-			this.bind( 'close', this.overlay.hide );
+     Optionally you can explicitly specify the ETW consumer session name.  If this name is
+     specified MA will assume the session is already open and use it.  It will not close
+     it.
+-->
 
-			$('#wpbody').on( 'click', '.load-customize', function( event ) {
-				event.preventDefault();
+  <xs:complexType name="MonitoringAgentStaticConfigType">
+    <xs:all>
+      <xs:element name="Endpoints" type="EndpointsType" minOccurs="0"/>
+    </xs:all>
+    <xs:attribute name="version" type="xs:string" use="required"/>
+    <xs:attribute name="agentVersion" type="xs:string" use="required"/>
+    <xs:attribute name="agentName" type="xs:string" use="required" />
+    <xs:attribute name="localResourcePath" type="xs:string" use="required"/>
+    <xs:attribute name="sessionName" type="xs:string" use="optional"/>
+  </xs:complexType>
 
-				// Load the theme.
-				Loader.open( $(this).attr('href') );
-			});
+  <xs:element name="MonitoringAgentStaticConfig" type="MonitoringAgentStaticConfigType"/>
 
-			// Add navigation listeners.
-			if ( $.support.history )
-				this.window.on( 'popstate', Loader.popstate );
-
-			if ( $.support.hashchange ) {
-				this.window.on( 'hashchange', Loader.hashchange );
-				this.window.triggerHandler( 'hashchange' );
-			}
-		},
-
-		popstate: function( e ) {
-			var state = e.originalEvent.state;
-			if ( state && state.customize )
-				Loader.open( state.customize );
-			else if ( Loader.active )
-				Loader.close();
-		},
-
-		hashchange: function( e ) {
-			var hash = window.location.toString().split('#')[1];
-
-			if ( hash && 0 === hash.indexOf( 'wp_customize=on' ) )
-				Loader.open( Loader.settings.url + '?' + hash );
-
-			if ( ! hash && ! $.support.history )
-				Loader.close();
-		},
-
-		open: function( src ) {
-			var hash;
-
-			if ( this.active )
-				return;
-
-			// Load the full 
+</xs:schema>
