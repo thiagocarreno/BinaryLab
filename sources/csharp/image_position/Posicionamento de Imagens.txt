@@ -1,0 +1,4 @@
+Eu possuo uma coleção de 1128 imagens de 50x50px como a imagem em anexo (foto267.jpg), e preciso colocá-la em uma grade como o exemplo anexo porém tenho que construir uma imagem que respeite uma proporção aproximada de 765x350px. Qual a solução matemática e/ou programática para isto?
+
+Aceito respostas programação (qq linguagem) ou explicação matemática. 
+Permitido o uso de calculadora.

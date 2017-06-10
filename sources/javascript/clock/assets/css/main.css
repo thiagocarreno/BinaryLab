@@ -1,0 +1,35 @@
+td{
+    background: #666;
+    -webkit-transition: opacity .8s;
+    transition: all .8s;
+}
+
+tr:last-child>td{
+    box-shadow: 0 2px 0 #fff, 0 4px 0 #000, 
+    0 5px 0 #a6a5a6,
+    0 6px 0 #b1b1b0,
+    0 7px 0 #bdbdbe,
+    0 8px 0 #ccc,
+    0 9px 0 #d8d8d8,
+    0 11px 0 #e2e2e1,
+    0 13px 0 #ececec,
+    0 15px 0 #f4f4f4,
+    0 18px 0 #fcfbfb; 	
+}
+        
+.hide{
+    transform:rotateY(180deg);
+    -ms-transform:rotateY(180deg); /* IE 9 */
+    -webkit-transform:rotateY(180deg); /* Safari and Chrome */
+    backface-visibility:hidden;
+    -ms-backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
+}
+.show{
+    transform:rotateY(0deg);
+    -ms-transform:rotateY(0deg); /* IE 9 */
+    -webkit-transform:rotateY(0deg); /* Safari and Chrome */
+    backface-visibility:hidden;
+    -ms-backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
+}

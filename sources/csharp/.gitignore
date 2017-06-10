@@ -224,3 +224,12 @@ _Pvt_Extensions
 
 ### DotSettings ###
 *.DotSettings
+
+### paket exe ###
+paket.exe
+
+### Fake ###
+.fake/
+
+### ProjectSettings ###
+uploads/

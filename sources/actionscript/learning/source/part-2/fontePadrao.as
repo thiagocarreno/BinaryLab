@@ -1,0 +1,1 @@
+﻿package{	import flash.display.MovieClip;		import flash.text.TextFieldAutoSize;		public class fontePadrao extends MovieClip	{		public var data:Object;				public function fontePadrao():void		{			texto.autoSize = TextFieldAutoSize.LEFT;						texto.wordWrap = false;						texto.mouseEnabled = false;						texto.multiline = false;		}	}}

@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Get Coordinates With Google Maps</title>
+    <!--<script type="text/javascript" src="Assets/js/jquery-1.10.2.min.js"></script>-->
+    <script type="text/javascript">
+        var urlRequest = "";
+        var type = "";
+
+        function Request(url, type) {
+            var resp;
+            if (typeof url !== "underfined" && typeof url === "string" && typeof type !== "undefined" && typeof type === "string") {
+                var req = new XMLHttpRequest();
+                req.open("GET", url, false);
+                req.send(null);
+
+                if (req.status == 200) {
+                    if (type === "xml") {
+                        resp = req.responseXML;
+                    }
+                    else if (type === "json") {
+                        resp = req.responseText;
+                    }
+                }
+            }
+            return resp;
+        }
+
+        function Init() {
+            this.urlRequest = "http://maps.google.com/maps/api/geocode/{0}?address={1}&sensor=false";
+            this.type = "json";
+        }
+
+        function Search() {
+            debugger;
+            Init();
+            var text = document.forms["Form1"]["textSearch"].value;
+            this.urlRequest = this.urlRequest.replace("{0}", type);
+            this.urlRequest = this.urlRequest.replace("{1}", text);
+            var result = Request(this.urlRequest, this.type);
+            var elm = document.getElementById("resultContainer");
+            var html = "Resultados:<br /><br />";
+
+            if (result != "" && result != undefined) {
+                if (type == "xml") {
+                    var index = result.children.item(0).children.item(1).children.length - 1;
+                    var location = result.children.item(0).children.item(1).children.item(index).children.item(0);
+
+                    if (location != null && location != undefined) {
+                        html += "Endereço: " + result.children.item(0).children.item(1).children.item(1).textContent;
+                    }
+
+                    if (location.children.item(0).textContent != null && location.children.item(0).textContent != undefined) {
+                        html += "<br />Latitude: " + location.children.item(0).textContent;
+                    }
+
+                    if (location.children.item(1).textContent != null && location.children.item(1).textContent != undefined) {
+                        html += "<br />Longitude: " + location.children.item(1).textContent;
+                    }
+                }
+                else if (type == "json") {
+                    var json = JSON.parse(result);
+                    if (json.results[0].formatted_address != null && json.results[0].formatted_address != undefined) {
+                        html += "Endereço: " + json.results[0].formatted_address;
+                    }
+
+                    if (json.results[0].geometry.location.lat != null && json.results[0].geometry.location.lat != undefined) {
+                        html += "<br />Latitude: " + json.results[0].geometry.location.lat;
+                    }
+
+                    if (json.results[0].geometry.location.lng != null && json.results[0].geometry.location.lng != undefined) {
+                        html += "<br />Longitude: " + json.results[0].geometry.location.lng;
+                    }
+                }
+            }
+            elm.innerHTML = html;
+        }
+    </script>
+
+</head>
+<body>
+
+    <form name="Form1" onsubmit="return false;" style="text-align: center;">
+        <label>Endereço: </label>
+        <input type="text" name="textSearch" value="" />
+        <button id="search" onclick="Search();">Search</button><br />
+    </form>
+    <div id="resultContainer"></div>
+</body>
+</html>

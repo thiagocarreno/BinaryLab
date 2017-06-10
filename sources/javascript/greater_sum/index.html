@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<head>
+    <title>Larger Sum</title>
+    <script type="text/javascript">
+        debugger;
+        var numbers = [1, 2, -3, 4, 5, 1, -2, 0, 10, -20, 11, -5, -6],
+			sum,
+			largerSum = 0;
+
+        for (var i = 0; i < numbers.length; i++) {
+			if (sum === undefined && typeof(sum) === 'undefined'){
+				sum = numbers[i];	
+			} else{
+				sum = sum + numbers[i];
+			}
+			
+            if (sum > largerSum) {
+                largerSum = sum;
+            } else if (sum < 0) {
+				sum = 0;
+			}
+        }
+
+        document.write(largerSum);
+    </script>
+</head>
+<body>
+</body>
+</html>

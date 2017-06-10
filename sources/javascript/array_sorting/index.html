@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript">
+		document.write("Início:<br />");
+		var i = 0;
+	
+		function c(index, arr) {
+			var idx = index;
+			var idx_next = idx + 1;
+			
+			document.write("-> " + (++i) + ")" + "Index:" + idx + ", Index Next:" + idx_next + ", Array: " + arr + "<br />");
+			
+			if(idx_next < arr.length)
+			{
+				
+				if(arr[idx] > arr[idx_next])
+				{
+					var t1 = arr[idx_next];
+					arr[idx_next] = arr[idx];
+					arr[idx] = t1;
+					idx--;
+					
+					if(idx >= 0)
+					{
+						c(idx, arr);
+					}
+				}
+				c(idx_next, arr);
+			}
+		}
+		
+		c(0, [104,190,10,111,90,80,70,200]);
+		document.write("Fim:<br />");
+	</script>
+	
+	
+</head>
+<body>
+	
+</body>
+</html>

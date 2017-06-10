@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConvertCertificate", "ConvertCertificate\ConvertCertificate.csproj", "{E804E2B0-A5A4-4353-A426-9C5D9C9CE9E0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E804E2B0-A5A4-4353-A426-9C5D9C9CE9E0}.Debug|x86.ActiveCfg = Debug|x86
+		{E804E2B0-A5A4-4353-A426-9C5D9C9CE9E0}.Debug|x86.Build.0 = Debug|x86
+		{E804E2B0-A5A4-4353-A426-9C5D9C9CE9E0}.Release|x86.ActiveCfg = Release|x86
+		{E804E2B0-A5A4-4353-A426-9C5D9C9CE9E0}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

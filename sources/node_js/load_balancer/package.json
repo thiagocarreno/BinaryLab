@@ -1,0 +1,16 @@
+{
+  "name": "LoadBalancer",
+  "version": "1.0.0",
+  "description": "Teste de load balancer.",
+  "main": "pi_server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Thiago Carreno",
+  "license": "ISC",
+  "dependencies": {
+    "http": "0.0.0",
+    "http-proxy": "^1.9.0",
+    "seaport": "^2.0.9"
+  }
+}

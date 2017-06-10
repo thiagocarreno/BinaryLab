@@ -1,0 +1,8 @@
+D:\Outros\Thiago\Testes\Python\DjangoApplication\DjangoApplication.Azure\bin\Debug\ServiceConfiguration.cscfg
+D:\Outros\Thiago\Testes\Python\DjangoApplication\DjangoApplication.Azure\obj\Debug\DjangoApplication\bin\Microsoft.PythonTools.AzureSetup.exe
+D:\Outros\Thiago\Testes\Python\DjangoApplication\DjangoApplication.Azure\obj\Debug\DjangoApplication\bin\Microsoft.PythonTools.WebRole.dll
+D:\Outros\Thiago\Testes\Python\DjangoApplication\DjangoApplication.Azure\obj\Debug\DjangoApplication\bin\Microsoft.Web.Deployment.dll
+D:\Outros\Thiago\Testes\Python\DjangoApplication\DjangoApplication.Azure\obj\Debug\DjangoApplication\bin\Microsoft.Web.PlatformInstaller.dll
+D:\Outros\Thiago\Testes\Python\DjangoApplication\DjangoApplication.Azure\obj\Debug\DjangoApplication\bin\Microsoft.Web.PlatformInstaller.UI.dll
+D:\Outros\Thiago\Testes\Python\DjangoApplication\DjangoApplication.Azure\obj\Debug\DjangoApplication\bin\WebPICmdLine.exe
+D:\Outros\Thiago\Testes\Python\DjangoApplication\DjangoApplication.Azure\obj\Debug\DjangoApplication\bin\wfastcgi.py

@@ -1,0 +1,17 @@
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\WindowsAzurePHP\bin\Release\ServiceConfiguration.cscfg
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\WindowsAzurePHP\bin\Release\ValidationIssues.xml
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\WindowsAzurePHP\obj\Release\PHPApp\bin\Microsoft.WindowsAzure.Diagnostics.dll
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\WindowsAzurePHP\obj\Release\PHPApp\bin\Microsoft.WindowsAzure.ServiceRuntime.dll
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\WindowsAzurePHP\obj\Release\PHPApp\bin\Microsoft.WindowsAzure.StorageClient.dll
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\WindowsAzurePHP\obj\Release\PHPApp\bin\PHPApp.dll
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\WindowsAzurePHP\obj\Release\PHPApp\bin\PHPApp.pdb
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\WindowsAzurePHP\obj\Release\PHPApp\bin\startup\Microsoft.Web.Deployment.dll
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\WindowsAzurePHP\obj\Release\PHPApp\bin\startup\Microsoft.Web.PlatformInstaller.dll
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\WindowsAzurePHP\obj\Release\PHPApp\bin\startup\Microsoft.Web.PlatformInstaller.UI.dll
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\WindowsAzurePHP\obj\Release\PHPApp\bin\startup\setup.cmd
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\WindowsAzurePHP\obj\Release\PHPApp\bin\startup\WebpiCmdLine.exe
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\WindowsAzurePHP\obj\Release\PHPApp\index.php
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\WindowsAzurePHP\obj\Release\PHPApp\startup\Microsoft.Web.Deployment.dll
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\WindowsAzurePHP\obj\Release\PHPApp\startup\Microsoft.Web.PlatformInstaller.dll
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\WindowsAzurePHP\obj\Release\PHPApp\startup\Microsoft.Web.PlatformInstaller.UI.dll
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\WindowsAzurePHP\obj\Release\PHPApp\startup\WebpiCmdLine.exe

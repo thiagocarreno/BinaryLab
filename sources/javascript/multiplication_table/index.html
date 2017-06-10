@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+
+    <style type="text/css">
+        ul
+        {
+            width: auto;
+            float: left;
+            list-style: none;
+        }
+        ul li
+        {
+            padding: 5px;
+            border-top: 1px solid black;
+            border-right: 1px solid black;
+            border-left: 1px solid black;
+        }
+        
+        ul li:last-child
+        {
+            border-bottom: 1px solid black;
+        }
+    </style>
+
+    <script type="text/javascript">
+        var html = "";
+
+        function multiplicationTable() {
+            var maxIndex = 10;
+            var index = 1;
+            var i = 1;
+            var result;
+
+            for (i; i <= maxIndex; i++) {
+                if (i === 1) {
+                    html += "<ul>";
+                }
+
+                result = i * index;
+                
+                html += "<li>" + index + " x " + i + " = " + result + "</li>";
+                
+                if ((i === maxIndex) && (index < maxIndex)) {
+                    html += "</ul>";
+                    index++;
+                    i = 0;
+                }
+            }
+            document.getElementById("result").innerHTML = html;
+            html = "";
+        }
+
+        function multiplicationTableRecursive(start, last, steps) {
+            var startIndex = start;
+            var maxIndex = last;
+            var result;
+            var i = 1;
+
+            html += "<ul>";
+
+            for (i; i <= steps; i++) {
+                result = i * startIndex;
+                html += "<li>" + startIndex + " x " + i + " = " + result + "</li>";
+            }
+
+            html += "</ul>";
+
+            if (startIndex < maxIndex) {
+                startIndex = startIndex + 1;
+                multiplicationTableRecursive(startIndex, maxIndex, steps);
+            } else {
+                document.getElementById("result").innerHTML = html;
+                html = "";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="main">
+        <input id="button" type="button" name="Calc" value="Clique para cácular." onclick="multiplicationTable();" />
+        <input id="button" type="button" name="CalcRecursive" value="Clique para cácular - Recursivo." onclick="multiplicationTableRecursive(1, 10, 10);" />
+        <div id="result"></div>
+    </div>
+</body>
+</html>
