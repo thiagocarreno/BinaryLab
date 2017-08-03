@@ -1,5 +1,6 @@
 ﻿using Study.UnitTest.Interfaces;
 using Study.UnitTest.Models;
+using System.Collections.Generic;
 
 namespace Study.UnitTest.Implements
 {
@@ -19,6 +20,12 @@ namespace Study.UnitTest.Implements
             if (id > default(int))
                 result = _repository.GetById(id);
 
+            return result;
+        }
+
+        public IEnumerable<SampleObject> Select(SampleObject obj)
+        {
+            var result = _repository.Select(obj);
             return result;
         }
     }
