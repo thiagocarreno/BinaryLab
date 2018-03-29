@@ -64,7 +64,31 @@
             .nuvens {
                 background-image: url(../../imagens/cenario_nuvens.png);
                 height: $h;
-                animation: anima_cenario 30s linear infinite;
+                animation: anima_cenario 90s linear infinite;
+            }
+
+            .casas {
+                background-image: url(../../imagens/cenario_casas.png);
+                height: $h;
+                animation: anima_cenario 30s linear infinite reverse;
+            }
+
+            .rua {
+                background-image: url(../../imagens/cenario_rua.png);
+                height: $h;
+                animation: anima_cenario 30s linear infinite reverse;
+            }
+
+            .carrosCima {
+                background-image: url(../../imagens/cenario_carrosCima.png);
+                height: $h;
+                animation: anima_cenario 15s linear infinite reverse;
+            }
+
+            .carrosBaixo {
+                background-image: url(../../imagens/cenario_carrosBaixo.png);
+                height: $h;
+                animation: anima_cenario 15s linear infinite;
             }
         }
     }
