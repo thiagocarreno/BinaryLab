@@ -93,7 +93,7 @@ h1, h2, h3, h4, h5, h6, .title {
         .header-animado__ilustra .nuvens {
           background-image: url(../../imagens/cenario_nuvens.png);
           height: 300px;
-          animation: anima_cenario 90s linear infinite reverse; }
+          animation: anima_cenario 90s linear infinite; }
         .header-animado__ilustra .casas {
           background-image: url(../../imagens/cenario_casas.png);
           height: 300px;
@@ -110,3 +110,57 @@ h1, h2, h3, h4, h5, h6, .title {
           background-image: url(../../imagens/cenario_carrosCima.png);
           height: 300px;
           animation: anima_cenario 15s linear infinite; } }
+
+.card-portfolio {
+  padding: 0;
+  border-radius: 0;
+  border: 1px solid transparent;
+  position: relative; }
+  .card-portfolio:before {
+    content: '';
+    z-index: -1;
+    position: absolute;
+    background: #777;
+    width: 50%;
+    height: 20px;
+    bottom: 12px;
+    box-shadow: 0 15px 10px #777;
+    left: 5px;
+    transform: rotate(-3deg); }
+  .card-portfolio:after {
+    content: '';
+    z-index: -1;
+    position: absolute;
+    background: #777;
+    width: 50%;
+    height: 20px;
+    bottom: 12px;
+    box-shadow: 0 15px 10px #777;
+    right: 5px;
+    transform: rotate(3deg); }
+  .card-portfolio__imagem {
+    height: 230px;
+    overflow: hidden; }
+    .card-portfolio__imagem img {
+      max-width: 100%;
+      opacity: .5;
+      transition: opacity .3s linear, transform 1s ease-in; }
+  .card-portfolio:hover img {
+    opacity: 1;
+    transform: scale(1.15) rotate(-5deg); }
+  .card-portfolio:hover .card-portfolio__btn {
+    background: #c5ddd9;
+    color: #fff; }
+    .card-portfolio:hover .card-portfolio__btn:hover {
+      background: #3fcab2; }
+  .card-portfolio__btn {
+    background: transparent;
+    color: #64a59a;
+    display: block;
+    border: none;
+    border-radius: 0;
+    width: 100px;
+    transition: background .3s linear;
+    margin-left: auto;
+    position: relative;
+    top: 1px; }
