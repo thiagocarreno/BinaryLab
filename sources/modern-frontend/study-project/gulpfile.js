@@ -1,20 +1,47 @@
 var     gulp = require('gulp')
     ,   sass = require('gulp-sass')
+    ,   include = require('gulp-file-include')
+    ,   clean = require('gulp-clean')
     ,   browserSync = require('browser-sync');
+
+gulp.task('clean', function () {
+    return gulp.src('./dist')
+        .pipe(clean());
+})
+
+gulp.task('copy', ['clean'], function () {
+    return gulp.src([  'source/components/bootstrap/css/**/*',
+                'source/components/bootstrap/fonts/**/*',
+                'source/components/bootstrap/js/**/*',
+                'source/components/font-awesome/css/**/*',
+                'source/components/font-awesome/fonts/**/*',
+                'source/css/**/*',
+                'source/javascript/**/*',
+                'source/imagens/**/*'
+            ], {"base": "source"})
+        .pipe(gulp.dest('dist'))
+})
 
 gulp.task('sass', function() {
     gulp.src('./source/sass/**/*.scss')
         .pipe(sass())
-        .pipe(gulp.dest('./source/css/'));
+        .pipe(gulp.dest('./dist/css/'));
 });
 
-gulp.task('server', function() {
+gulp.task('html', ['copy'], function () {
+    return gulp.src('./source/index.html')
+        .pipe(include())
+        .pipe(gulp.dest('./dist/'))
+});
+
+gulp.task('server', ['html'], function() {
     browserSync.init({
         server: {
-            baseDir: 'source'
+            baseDir: 'dist'
         }
     })
 
     gulp.watch('./source/sass/**/*.scss', ['sass'])
-    gulp.watch('./source/**/*').on('change', browserSync.reload)
+    gulp.watch('./source/**/*.html', ['html'])
+    gulp.watch('./dist/**/*').on('change', browserSync.reload)
 });
