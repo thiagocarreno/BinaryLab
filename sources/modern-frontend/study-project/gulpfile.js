@@ -10,7 +10,7 @@ gulp.task('clean', function () {
 })
 
 gulp.task('copy', ['clean'], function () {
-    return gulp.src([  'source/components/bootstrap/css/**/*',
+    gulp.src([  'source/components/bootstrap/css/**/*',
                 'source/components/bootstrap/fonts/**/*',
                 'source/components/bootstrap/js/**/*',
                 'source/components/font-awesome/css/**/*',
@@ -19,22 +19,22 @@ gulp.task('copy', ['clean'], function () {
                 'source/javascript/**/*',
                 'source/imagens/**/*'
             ], {"base": "source"})
-        .pipe(gulp.dest('dist'))
+        .pipe(gulp.dest('./dist/'))
 })
 
 gulp.task('sass', function() {
-    gulp.src('./source/sass/**/*.scss')
+    return gulp.src('./source/sass/**/*.scss')
         .pipe(sass())
-        .pipe(gulp.dest('./dist/css/'));
+        .pipe(gulp.dest('./source/css/'));
 });
 
 gulp.task('html', ['copy'], function () {
-    return gulp.src('./source/index.html')
+    return gulp.src('./source/**/*.html')
         .pipe(include())
         .pipe(gulp.dest('./dist/'))
 });
 
-gulp.task('server', ['html'], function() {
+gulp.task('server', ['sass', 'html'], function() {
     browserSync.init({
         server: {
             baseDir: 'dist'
