@@ -2,7 +2,7 @@ var     gulp = require('gulp')
     ,   sass = require('gulp-sass')
     ,   include = require('gulp-file-include')
     ,   clean = require('gulp-clean')
-    ,   browserSync = require('browser-sync');
+    ,   browserSync = require('browser-sync').create();
 
 gulp.task('clean', function () {
     return gulp.src('./dist')
@@ -23,13 +23,13 @@ gulp.task('copy', ['clean'], function () {
 })
 
 gulp.task('sass', function() {
-    return gulp.src('./source/sass/**/*.scss')
+    gulp.src('./source/sass/**/*.scss')
         .pipe(sass())
         .pipe(gulp.dest('./source/css/'));
 });
 
 gulp.task('html', ['copy'], function () {
-    return gulp.src('./source/**/*.html')
+    gulp.src('./source/**/*.html')
         .pipe(include())
         .pipe(gulp.dest('./dist/'))
 });
