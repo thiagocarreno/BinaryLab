@@ -149,12 +149,12 @@ h1, h2, h3, h4, h5, h6, .title {
           background-image: url(../../imagens/cenario_rua.png);
           height: 300px;
           animation: anima_cenario 30s linear infinite reverse; }
-        .header-animado__ilustra .carrosBaixo {
-          background-image: url(../../imagens/cenario_carrosBaixo.png);
-          height: 300px;
-          animation: anima_cenario 15s linear infinite reverse; }
         .header-animado__ilustra .carrosCima {
           background-image: url(../../imagens/cenario_carrosCima.png);
+          height: 300px;
+          animation: anima_cenario 15s linear infinite reverse; }
+        .header-animado__ilustra .carrosBaixo {
+          background-image: url(../../imagens/cenario_carrosBaixo.png);
           height: 300px;
           animation: anima_cenario 15s linear infinite; } }
 
