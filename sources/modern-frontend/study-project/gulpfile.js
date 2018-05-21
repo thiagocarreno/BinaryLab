@@ -1,6 +1,7 @@
 var     gulp = require('gulp')
     ,   sass = require('gulp-sass')
     ,   include = require('gulp-file-include')
+    ,   autoprefizer = require('gulp-autoprefixer')
     ,   clean = require('gulp-clean')
     ,   browserSync = require('browser-sync').create();
 
@@ -25,6 +26,7 @@ gulp.task('copy', ['clean'], function () {
 gulp.task('sass', function() {
     gulp.src('./source/sass/**/*.scss')
         .pipe(sass())
+        .pipe(autoprefizer())
         .pipe(gulp.dest('./source/css/'));
 });
 
