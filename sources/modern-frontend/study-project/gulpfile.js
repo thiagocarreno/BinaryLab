@@ -3,6 +3,8 @@ var     gulp = require('gulp')
     ,   include = require('gulp-file-include')
     ,   autoprefizer = require('gulp-autoprefixer')
     ,   clean = require('gulp-clean')
+    ,   uncss = require('gulp-uncss')
+    ,   imagemin = require('gulp-imagemin')
     ,   browserSync = require('browser-sync').create();
 
 gulp.task('clean', function () {
@@ -16,9 +18,7 @@ gulp.task('copy', ['clean'], function () {
                 'source/components/bootstrap/js/**/*',
                 'source/components/font-awesome/css/**/*',
                 'source/components/font-awesome/fonts/**/*',
-                'source/css/**/*',
-                'source/javascript/**/*',
-                'source/imagens/**/*'
+                'source/javascript/**/*'
             ], {"base": "source"})
         .pipe(gulp.dest('./dist/'))
 })
@@ -27,16 +27,32 @@ gulp.task('sass', function() {
     gulp.src('./source/sass/**/*.scss')
         .pipe(sass())
         .pipe(autoprefizer())
-        .pipe(gulp.dest('./source/css/'));
+        .pipe(gulp.dest('./dist/css/'));
 });
 
-gulp.task('html', ['copy'], function () {
-    gulp.src('./source/**/*.html')
+gulp.task('html', function () {
+    return gulp.src('./source/**/*.html')
         .pipe(include())
         .pipe(gulp.dest('./dist/'))
 });
 
-gulp.task('server', ['sass', 'html'], function() {
+gulp.task('uncss', ['html'], function () {
+    return gulp.src('./dist/components/**/*.css')
+        .pipe(uncss(
+            {
+                html: ['./dist/*.html']
+            }
+        ))
+        .pipe(gulp.dest('./dist/components/'))
+})
+
+gulp.task('imagemin', function () {
+    return gulp.src('./source/imagens/**/*')
+        .pipe(imagemin())
+        .pipe(gulp.dest('./dist/imagens/'))
+})
+
+gulp.task('server', ['uncss', 'imagemin', 'sass', 'copy'], function() {
     browserSync.init({
         server: {
             baseDir: 'dist'
