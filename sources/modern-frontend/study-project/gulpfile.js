@@ -5,6 +5,9 @@ var     gulp = require('gulp')
     ,   clean = require('gulp-clean')
     ,   uncss = require('gulp-uncss')
     ,   imagemin = require('gulp-imagemin')
+    ,   cssnano = require('gulp-cssnano')
+    ,   uglify = require('gulp-uglify')
+    ,   concat = require('gulp-concat')
     ,   browserSync = require('browser-sync').create();
 
 gulp.task('clean', function () {
@@ -17,8 +20,7 @@ gulp.task('copy', ['clean'], function () {
                 'source/components/bootstrap/fonts/**/*',
                 'source/components/bootstrap/js/**/*',
                 'source/components/font-awesome/css/**/*',
-                'source/components/font-awesome/fonts/**/*',
-                'source/javascript/**/*'
+                'source/components/font-awesome/fonts/**/*'
             ], {"base": "source"})
         .pipe(gulp.dest('./dist/'))
 })
@@ -27,6 +29,7 @@ gulp.task('sass', function() {
     gulp.src('./source/sass/**/*.scss')
         .pipe(sass())
         .pipe(autoprefizer())
+        .pipe(cssnano())
         .pipe(gulp.dest('./dist/css/'));
 });
 
@@ -50,6 +53,13 @@ gulp.task('imagemin', function () {
     return gulp.src('./source/imagens/**/*')
         .pipe(imagemin())
         .pipe(gulp.dest('./dist/imagens/'))
+})
+
+gulp.task('build-js', function () {
+    gulp.src('source/javascript/**/*')
+        .pipe(concat('app.min.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest('./dist/javascript'))
 })
 
 gulp.task('server', ['uncss', 'imagemin', 'sass', 'copy'], function() {
