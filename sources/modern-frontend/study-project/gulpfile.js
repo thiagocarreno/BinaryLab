@@ -34,8 +34,10 @@ gulp.task('sass', function() {
 });
 
 gulp.task('html', function () {
-    return gulp.src('./source/**/*.html')
-        .pipe(include())
+    return gulp.src([
+            './source/**/*.html', 
+            '!./source/inc/**'
+        ]).pipe(include())
         .pipe(gulp.dest('./dist/'))
 });
 
@@ -62,7 +64,11 @@ gulp.task('build-js', function () {
         .pipe(gulp.dest('./dist/javascript'))
 })
 
-gulp.task('server', ['uncss', 'imagemin', 'sass', 'copy'], function() {
+gulp.task('default', ['copy'], function () {
+    gulp.start('uncss', 'imagemin', 'sass', 'build-js')
+})
+
+gulp.task('server', function() {
     browserSync.init({
         server: {
             baseDir: 'dist'
@@ -71,5 +77,6 @@ gulp.task('server', ['uncss', 'imagemin', 'sass', 'copy'], function() {
 
     gulp.watch('./source/sass/**/*.scss', ['sass'])
     gulp.watch('./source/**/*.html', ['html'])
+    gulp.watch('./source/javascript/**/*', ['build-js'])
     gulp.watch('./dist/**/*').on('change', browserSync.reload)
 });
