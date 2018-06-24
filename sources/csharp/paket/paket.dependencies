@@ -1,0 +1,19 @@
+source https://www.nuget.org/api/v2
+
+nuget DryIoc.dll
+
+group Build
+	source https://www.nuget.org/api/v2
+	
+	nuget FAKE
+	nuget Sonar-Runner
+	
+
+group Test
+	source https://www.nuget.org/api/v2
+	
+	nuget xunit
+	nuget xunit.runners
+	nuget xunit.runner.console
+	nuget BuildTools.FxCop
+	

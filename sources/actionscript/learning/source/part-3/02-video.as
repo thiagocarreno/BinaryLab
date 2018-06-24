@@ -1,0 +1,1 @@
+﻿var obj:Object = {};obj.onMetaData = metaData;var nc:NetConnection = new NetConnection();nc.connect( null );var ns:NetStream = new NetStream( nc );ns.play( "beavis.flv" );ns.client = objfunction metaData(evt:Object):void { trace( evt.duration ); }var video:Video = new Video();video.attachNetStream( ns );addChild( video );

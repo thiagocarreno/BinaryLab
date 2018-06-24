@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<head>
+    <title>Ruffle</title>
+    <script type="text/javascript">
+        var awards = [
+            {
+                Amount: 5,
+                Award: "Smartphone"
+            },
+            {
+                Amount: 25,
+                Award: "Headset"
+            },
+            {
+                Amount: 50,
+                Award: "T-Shirt"
+            }
+        ],
+            totalAwards = 80,
+            raffled = new Array(totalAwards);
+
+        for (var i = 0; i < totalAwards; i++) {
+            var rand = Math.floor(Math.random() * awards.length);
+            if (awards[rand].Amount > 0) {
+                raffled[i] = (i + 1) + ": " + awards[rand].Award;
+                awards[rand].Amount--;
+                if (awards[rand].Amount === 0) {
+                    awards.splice(rand, 1);
+                }
+            }
+        }
+        document.write(raffled.join("<br />"));
+    </script>
+</head>
+<body>
+</body>
+</html>

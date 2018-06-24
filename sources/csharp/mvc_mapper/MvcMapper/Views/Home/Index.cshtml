@@ -1,0 +1,53 @@
+﻿@model MvcMapper.ViewModels.ClientViewModel
+@{
+    ViewBag.Title = "Mvc Mapping";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <fieldset>
+        <legend>Mvc Mapping Test</legend>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.Name)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Name)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.LastName)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.LastName)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.Birth)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Birth)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.Active)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Active)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.LuckyNumber)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.LuckyNumber)
+        </div>
+    </feldset>
+</body>
+</html>

@@ -1,3 +1,3 @@
-# Bit Lab
+# Binary Lab
 
-Espaço reservado para trechos de códigos diversos.
+Space reserved for studies and PoC (Proof of Concept).

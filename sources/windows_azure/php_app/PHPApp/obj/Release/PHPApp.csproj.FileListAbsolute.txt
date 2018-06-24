@@ -1,0 +1,16 @@
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\PHPApp\bin\startup\Microsoft.Web.Deployment.dll
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\PHPApp\bin\startup\Microsoft.Web.PlatformInstaller.dll
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\PHPApp\bin\startup\Microsoft.Web.PlatformInstaller.UI.dll
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\PHPApp\bin\startup\WebpiCmdLine.exe
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\PHPApp\bin\startup\setup.cmd
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\PHPApp\bin\PHPApp.dll
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\PHPApp\bin\PHPApp.pdb
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\PHPApp\bin\Microsoft.WindowsAzure.Diagnostics.dll
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\PHPApp\bin\Microsoft.WindowsAzure.ServiceRuntime.dll
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\PHPApp\bin\Microsoft.WindowsAzure.StorageClient.dll
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\PHPApp\bin\Microsoft.WindowsAzure.Diagnostics.xml
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\PHPApp\bin\Microsoft.WindowsAzure.ServiceRuntime.xml
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\PHPApp\bin\Microsoft.WindowsAzure.StorageClient.xml
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\PHPApp\obj\Release\PHPApp.csprojResolveAssemblyReference.cache
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\PHPApp\obj\Release\PHPApp.dll
+D:\Outros\Desenvolvimento\Windows Azure\PHP\DeployWindowsAzurePHP\WindowsAzurePHP\PHPApp\obj\Release\PHPApp.pdb

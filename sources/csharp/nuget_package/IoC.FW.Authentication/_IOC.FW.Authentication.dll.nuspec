@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<package >
+	<metadata>
+		<id>IOC.FW.Authentication</id>
+		<version>1.0.1</version>
+		<title>Codvanced IoC Framework Authentication</title>
+		<authors>carreno, lcssk8board</authors>
+		<owners>carreno, lcssk8board</owners>
+		<licenseUrl>https://github.com/Codvanced/framework/blob/v2.0.0/LICENSE</licenseUrl>
+		<projectUrl>https://github.com/Codvanced/framework</projectUrl>
+		<iconUrl>https://cdn1.iconfinder.com/data/icons/free-98-icons/32/code-128.png</iconUrl>
+		<requireLicenseAcceptance>true</requireLicenseAcceptance>
+		<description>Codvanced Framework (a.k.a IOC FW)
+			
+		Simplesmente um framework baseado em inversão de controle.
+
+		A ideia é agilizar ainda mais o processo de concepção e estruturação de um projeto mantendo os princípíos que afirmam a orientação a objetos descritos como SOLID.
+
+		Para isso desconstruímos alguns raciocínios antiquados, como deixar o desenvolvedor preso a um fluxo de programação contínuo onde ele acaba se vendo preso e engessado, e optamos por um estilo mais flexível e maleável.
+		</description>
+		<summary>Codvanced Framework (a.k.a IOC FW)
+			
+		Simplesmente um framework baseado em inversão de controle.
+		</summary>
+		<releaseNotes>First Release</releaseNotes>
+		<copyright>Copyright 2015</copyright>
+		<tags>ioc di cantainer injection dependency authentication basic authentication</tags>
+		<dependencies />
+		<frameworkAssemblies>
+			<frameworkAssembly assemblyName="System" targetFramework="4.0" />
+		</frameworkAssemblies>
+	</metadata>
+</package>

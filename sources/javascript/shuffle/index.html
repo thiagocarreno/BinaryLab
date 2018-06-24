@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<head>
+    <title>Shuffle</title>
+
+    <script type="text/javascript">
+        var raffle = {
+            shuffle: function (collection) {
+                if (collection !== null && collection !== undefined && typeof(collection) === "object") {
+                    var collectionLength = collection.length,
+                        item = null;
+
+                    for (var i = 0; i < collectionLength; i++) {
+						var index = collectionLength - i,
+							rand = Math.floor(Math.random() * index);
+                        item = collection[index];
+                        if (item != undefined) {
+                            collection[index] = collection[rand];
+                            collection[rand] = item;
+                        }
+                    }
+                }
+            },
+			shuffle1: function (collection) {
+                var shuffledCollection = new Array();
+
+                if (collection !== null && collection !== undefined && typeof (collection) === "object") {
+                    var collectionLength = collection.length,
+                        item = null;
+
+                    for (var i = 0; i < collectionLength; i++) {
+                        var rand = Math.floor(Math.random() * (collectionLength - i));
+                        item = collection[rand];
+                        if (item != undefined) {
+                            collection.splice(rand, 1);
+                            shuffledCollection.push(item);
+                        }
+                    }
+                }
+                return shuffledCollection;
+            }
+        };
+
+		shufflePage = {
+			awards: [],
+			constructor: function() {
+				this.awards = [
+					"Smartphone 1",
+					"Smartphone 2",
+					"Smartphone 3",
+					"Smartphone 4",
+					"Smartphone 5",
+					"Headset 1",
+					"Headset 2",
+					"Headset 3",
+					"Headset 4",
+					"Headset 5",
+					"Headset 6",
+					"Headset 7",
+					"Headset 8",
+					"Headset 9",
+					"Headset 10",
+					"Headset 11",
+					"Headset 12",
+					"Headset 13",
+					"Headset 14",
+					"Headset 15",
+					"Headset 16",
+					"Headset 17",
+					"Headset 18",
+					"Headset 19",
+					"Headset 20",
+					"Headset 21",
+					"Headset 22",
+					"Headset 23",
+					"Headset 24",
+					"Headset 25",
+					"Camiseta 1",
+					"Camiseta 2",
+					"Camiseta 3",
+					"Camiseta 4",
+					"Camiseta 5",
+					"Camiseta 6",
+					"Camiseta 7",
+					"Camiseta 8",
+					"Camiseta 9",
+					"Camiseta 10",
+					"Camiseta 11",
+					"Camiseta 12",
+					"Camiseta 13",
+					"Camiseta 14",
+					"Camiseta 15",
+					"Camiseta 16",
+					"Camiseta 17",
+					"Camiseta 18",
+					"Camiseta 19",
+					"Camiseta 20",
+					"Camiseta 21",
+					"Camiseta 22",
+					"Camiseta 23",
+					"Camiseta 24",
+					"Camiseta 25",
+					"Camiseta 26",
+					"Camiseta 27",
+					"Camiseta 28",
+					"Camiseta 29",
+					"Camiseta 30",
+					"Camiseta 31",
+					"Camiseta 32",
+					"Camiseta 33",
+					"Camiseta 34",
+					"Camiseta 35",
+					"Camiseta 36",
+					"Camiseta 37",
+					"Camiseta 38",
+					"Camiseta 39",
+					"Camiseta 40",
+					"Camiseta 41",
+					"Camiseta 42",
+					"Camiseta 43",
+					"Camiseta 44",
+					"Camiseta 45",
+					"Camiseta 46",
+					"Camiseta 47",
+					"Camiseta 48",
+					"Camiseta 49",
+					"Camiseta 50"
+				];
+			},
+			formatPage: function(collection) {
+				var html = "";
+
+				if (collection !== null && collection !== undefined && typeof (collection) === "object") {
+					for (var i = 0; i < collection.length; i++) {
+						html += (i + 1) + "° Prêmio: " + collection[i] + "<br />";
+					}
+				}
+
+				return html;
+			},
+			sortear: function() {
+				this.constructor();
+				parent.raffle.shuffle(this.awards);
+				var html = this.formatPage(this.awards);
+				var elm = document.getElementById("result");
+				if (elm !== null) {
+					elm.innerHTML = html;
+				}
+			},
+			sortear1: function() {
+				this.constructor();
+				var shuffled = parent.raffle.shuffle1(this.awards);
+				var html = this.formatPage(shuffled);
+				var elm = document.getElementById("result1");
+				if (elm !== null) {
+					elm.innerHTML = html;
+				}
+			}
+		};
+    </script>
+
+</head>
+<body>
+    
+    <div style="outline: 1px solid black; width: 50%; height: auto; float: left;">
+        <button name="raffle" id="raffle" type="button" title="Sortear Prêmios" onclick="shufflePage.sortear();">Sortear Prêmios</button>
+        <div id="result" style="margin: 20px 0 0 10px;"></div>
+    </div>
+    <div style="outline: 1px solid black; width: 50%; height: auto; float: left;">
+        <button name="raffle" id="Button1" type="button" title="Sortear Prêmios" onclick="shufflePage.sortear1();">Sortear Prêmios</button>
+        <div id="result1" style="margin: 20px 0 0 10px;"></div>
+    </div>
+</body>
+</html>
