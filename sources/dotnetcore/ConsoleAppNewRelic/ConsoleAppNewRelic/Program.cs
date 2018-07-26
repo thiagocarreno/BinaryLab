@@ -26,6 +26,7 @@ namespace ConsoleAppNewRelic
         static void ErrorTest(string exceptionMessage)
         {
             SetTransactionName("Notice Error Method");
+            NewRelic.Api.Agent.NewRelic.IncrementCounter("PoCError");
             NewRelic.Api.Agent.NewRelic.AddCustomParameter("PoC:ParameterValue", exceptionMessage);
             NewRelic.Api.Agent.NewRelic.AddCustomParameter("PoC:ErrorTestException", "Exception without try");
             NewRelic.Api.Agent.NewRelic.NoticeError($"String: {exceptionMessage}", null);
@@ -46,6 +47,7 @@ namespace ConsoleAppNewRelic
         static void Run()
         {
             SetTransactionName("Run Method.");
+            NewRelic.Api.Agent.NewRelic.IncrementCounter("PoCRunMethod");
             NewRelic.Api.Agent.NewRelic.AddCustomParameter("PoC:AppVersion", VERSION);
             ErrorTest("Exception test.");
 
@@ -61,14 +63,17 @@ namespace ConsoleAppNewRelic
         static void Calculate(int i)
         {
             SetTransactionName("Calculate Method.");
+            NewRelic.Api.Agent.NewRelic.IncrementCounter("PoCCalculateMethod");
             NewRelic.Api.Agent.NewRelic.AddCustomParameter("AddParameter", i);
             var result = Add(i, 1);
             Console.WriteLine($"Called Add method with parameter value: {i} => {result}");
         }
 
+        [Transaction]
         [Trace]
         static int Add(int x, int y)
         {
+            NewRelic.Api.Agent.NewRelic.IncrementCounter("PoCAddMethod");
             var eventAttributes = new Dictionary<string, object>() { { "x", x }, { "y", y } };
             NewRelic.Api.Agent.NewRelic.RecordCustomEvent("PoCSumOperation", eventAttributes);
             return x + y;
