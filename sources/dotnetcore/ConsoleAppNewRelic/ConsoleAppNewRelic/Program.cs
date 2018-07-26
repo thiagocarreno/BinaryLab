@@ -11,8 +11,6 @@ namespace ConsoleAppNewRelic
 
         static void Main(string[] args)
         {
-            NewRelic.Api.Agent.NewRelic.StartAgent();
-
             var stopWatch = Stopwatch.StartNew();
             NewRelic.Api.Agent.NewRelic.SetApplicationName("Marketplace-HML");
 
