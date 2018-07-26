@@ -7,37 +7,32 @@ namespace ConsoleAppNewRelic
 {
     class Program
     {
-        const string _version = "1.0.0";
+        const string VERSION = "3.0.0";
 
         static void Main(string[] args)
         {
             var stopWatch = Stopwatch.StartNew();
             NewRelic.Api.Agent.NewRelic.SetApplicationName("Marketplace-HML");
-
-            SetTransactionName("Notice Error Method");
-            ErrorTest("Exception test.");
-
-            SetTransactionName("Run Method");
             Run();
-
             stopWatch.Stop();
-            NewRelic.Api.Agent.NewRelic.RecordMetric("PoC/Executable_Metric", stopWatch.ElapsedMilliseconds);
+            NewRelic.Api.Agent.NewRelic.RecordMetric("PoC/ExecutableMetric", stopWatch.ElapsedMilliseconds);
         }
 
         static void SetTransactionName(string transactionName) =>
             NewRelic.Api.Agent.NewRelic.SetTransactionName("PoC", transactionName);
 
         [Transaction]
+        [Trace]
         static void ErrorTest(string exceptionMessage)
         {
-            NewRelic.Api.Agent.NewRelic.AddCustomParameter("Parameter_Value", exceptionMessage);
-            NewRelic.Api.Agent.NewRelic.AddCustomParameter("Error_Test_Exception", "Exception without try");
-            var exception = new Exception(exceptionMessage);
-            NewRelic.Api.Agent.NewRelic.NoticeError(exception);
+            SetTransactionName("Notice Error Method");
+            NewRelic.Api.Agent.NewRelic.AddCustomParameter("PoC:ParameterValue", exceptionMessage);
+            NewRelic.Api.Agent.NewRelic.AddCustomParameter("PoC:ErrorTestException", "Exception without try");
+            NewRelic.Api.Agent.NewRelic.NoticeError($"String: {exceptionMessage}", null);
 
             try
             {
-                NewRelic.Api.Agent.NewRelic.AddCustomParameter("Error_Test_Exception", "Exception in try");
+                NewRelic.Api.Agent.NewRelic.AddCustomParameter("PoC:ErrorTestException", "Exception in try");
                 throw new Exception(exceptionMessage);
             }
             catch (Exception ex)
@@ -47,13 +42,15 @@ namespace ConsoleAppNewRelic
         }
 
         [Transaction]
+        [Trace]
         static void Run()
         {
-            NewRelic.Api.Agent.NewRelic.AddCustomParameter("AppVersion", _version);
+            SetTransactionName("Run Method.");
+            NewRelic.Api.Agent.NewRelic.AddCustomParameter("PoC:AppVersion", VERSION);
+            ErrorTest("Exception test.");
 
             for (int i = 0; i < 1000; i++)
             {
-                NewRelic.Api.Agent.NewRelic.SetTransactionName("PoC", "Calculate Method");
                 Calculate(i);
                 System.Threading.Thread.Sleep(500);
             }
@@ -63,7 +60,8 @@ namespace ConsoleAppNewRelic
         [Trace]
         static void Calculate(int i)
         {
-            NewRelic.Api.Agent.NewRelic.AddCustomParameter("Add-Parameter", i);
+            SetTransactionName("Calculate Method.");
+            NewRelic.Api.Agent.NewRelic.AddCustomParameter("AddParameter", i);
             var result = Add(i, 1);
             Console.WriteLine($"Called Add method with parameter value: {i} => {result}");
         }
@@ -72,7 +70,7 @@ namespace ConsoleAppNewRelic
         static int Add(int x, int y)
         {
             var eventAttributes = new Dictionary<string, object>() { { "x", x }, { "y", y } };
-            NewRelic.Api.Agent.NewRelic.RecordCustomEvent("PoC_Sum_Operation", eventAttributes);
+            NewRelic.Api.Agent.NewRelic.RecordCustomEvent("PoCSumOperation", eventAttributes);
             return x + y;
         }
     }
