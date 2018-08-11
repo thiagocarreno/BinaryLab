@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  copafilmes.api:
+    image: copafilmes.api
+    build:
+      context: ./CopaFilmes.Api
+      dockerfile: Dockerfile
