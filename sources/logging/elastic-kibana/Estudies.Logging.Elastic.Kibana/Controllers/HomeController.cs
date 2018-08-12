@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Estudies.Logging.Elastic.Kibana.Models;
 using Microsoft.AspNetCore.Mvc;
-using Estudies.Logging.Elastic.Kibana.Models;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Diagnostics;
 
 namespace Estudies.Logging.Elastic.Kibana.Controllers
 {
@@ -18,19 +15,24 @@ namespace Estudies.Logging.Elastic.Kibana.Controllers
             _logger = logger;
         }
 
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Index()
         {
-            _logger.LogInformation($"oh hai there! : {DateTime.UtcNow}");
+            _logger.LogInformation($"Home/Index : {DateTime.UtcNow}");
+            return View();
+        }
 
-            try
-            {
-                throw new Exception("oops. i haz cause error in UR codez.");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "ur code iz buggy.");
-            }
+        public IActionResult LogError()
+        {
+            var exception = new Exception("Error occurred.");
+            _logger.LogError(exception, "ur code iz buggy.");
+            return View();
+        }
 
+        public IActionResult LogFatal()
+        {
+            var exception = new Exception("Fatal Error occurred.");
+            _logger.LogCritical("ur app haz critical error", exception);
             return View();
         }
 
@@ -48,6 +50,7 @@ namespace Estudies.Logging.Elastic.Kibana.Controllers
             return View();
         }
 
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

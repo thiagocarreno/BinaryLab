@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
-using Serilog.Sinks.Elasticsearch;
 using Serilog.Exceptions;
+using Serilog.Sinks.Elasticsearch;
+using System;
 
 namespace Estudies.Logging.Elastic.Kibana
 {
@@ -34,7 +31,7 @@ namespace Estudies.Logging.Elastic.Kibana
                 {
                     AutoRegisterTemplate = true
                 });
-            
+
             Log.Logger = loggerConfiguration.CreateLogger();
         }
 
@@ -50,6 +47,7 @@ namespace Estudies.Logging.Elastic.Kibana
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddSerilog();
+
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
             else
