@@ -15,10 +15,14 @@ namespace Estudies.Logging.Elastic.Kibana.Controllers
             _logger = logger;
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Index()
         {
-            _logger.LogInformation($"Home/Index : {DateTime.UtcNow}");
+            return View();
+        }
+
+        public IActionResult LogInformation()
+        {
+            _logger.LogInformation($"HomeController. {DateTime.UtcNow}");
             return View();
         }
 
