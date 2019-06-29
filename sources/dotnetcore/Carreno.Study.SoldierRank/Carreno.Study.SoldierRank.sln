@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.705
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carreno.Study.SoldierRank", "Carreno.Study.SoldierRank\Carreno.Study.SoldierRank.csproj", "{7DF47E9E-1105-4EE7-AF44-298BECBC7B5E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7DF47E9E-1105-4EE7-AF44-298BECBC7B5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DF47E9E-1105-4EE7-AF44-298BECBC7B5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DF47E9E-1105-4EE7-AF44-298BECBC7B5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DF47E9E-1105-4EE7-AF44-298BECBC7B5E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E7372C09-3CD2-4919-B840-CE7CC27BA222}
+	EndGlobalSection
+EndGlobal
